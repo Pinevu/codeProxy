@@ -29,6 +29,7 @@ export function MonitorKpiSection({
     inputTokens: number;
     outputTokens: number;
     totalTokens: number;
+    totalCost: number;
   };
   hasData: boolean;
   isLoading: boolean;
@@ -37,7 +38,7 @@ export function MonitorKpiSection({
   return (
     <>
       <Reveal>
-        <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
           <KpiCard
             title={t("monitor.total_requests")}
             value={<AnimatedNumber value={metrics.totalRequests} format={formatCompact} />}
@@ -65,6 +66,17 @@ export function MonitorKpiSection({
             hint={t("monitor.input_tokens_hint", {
               count: formatCompact(metrics.inputTokens),
             } as Record<string, unknown>)}
+            icon={Coins}
+          />
+          <KpiCard
+            title={t("monitor.total_cost")}
+            value={
+              <AnimatedNumber
+                value={metrics.totalCost ?? 0}
+                format={(v) => (typeof v === "number" ? v.toFixed(4) : "0")}
+              />
+            }
+            hint={t("monitor.total_cost_hint")}
             icon={Coins}
           />
         </section>

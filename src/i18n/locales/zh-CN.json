@@ -142,7 +142,7 @@
     "status": "连接状态:"
   },
   "nav": {
-    "dashboard": "仪表盘",
+    "dashboard": "系统仪表",
     "basic_settings": "基础设置",
     "api_keys": "API 密钥",
     "ai_providers": "AI 提供商",
@@ -1742,6 +1742,8 @@
     "success_rate": "成功率",
     "total_token": "总 Token",
     "output_token": "输出 Token",
+    "total_cost": "总费用",
+    "total_cost_hint": "基于已设置的模型单价",
     "filtered_by_time": "按时间范围过滤",
     "success_count": "成功 {{success}} / 失败 {{failed}}",
     "input_output_hint": "输入 + 输出 + 推理 + 缓存",
@@ -1773,7 +1775,7 @@
   },
   "shell": {
     "console": "控制台",
-    "nav_dashboard": "仪表盘",
+    "nav_dashboard": "系统仪表",
     "nav_monitor": "监控中心",
     "nav_request_logs": "请求日志",
     "nav_ai_providers": "AI供应商",

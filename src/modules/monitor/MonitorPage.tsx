@@ -114,6 +114,7 @@ export function MonitorPage() {
     let failed = 0;
     let inputTokens = 0;
     let outputTokens = 0;
+    let totalCost = 0;
 
     if (chartData?.daily_series) {
       for (const pt of chartData.daily_series) {
@@ -121,6 +122,7 @@ export function MonitorPage() {
         failed += pt.failed_requests || 0;
         inputTokens += pt.input_tokens || 0;
         outputTokens += pt.output_tokens || 0;
+        totalCost += pt.cost || pt.total_cost || 0;
       }
     }
 
@@ -135,6 +137,7 @@ export function MonitorPage() {
       inputTokens,
       outputTokens,
       totalTokens: inputTokens + outputTokens,
+      totalCost,
     };
   }, [chartData]);
 

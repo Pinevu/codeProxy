@@ -109,6 +109,8 @@ export interface ChartDataResponse {
     failed_requests: number;
     input_tokens: number;
     output_tokens: number;
+    cost?: number;
+    total_cost?: number;
   }[];
   model_distribution: { model: string; requests: number; tokens: number }[];
   hourly_tokens: {

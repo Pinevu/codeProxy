@@ -442,29 +442,7 @@ export function DashboardPage() {
             {t("dashboard.overview_hint", { time: generatedAt })}
           </p>
         </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <Tabs
-            value={String(range)}
-            onValueChange={(next) => setRange(Number(next) as DashboardRange)}
-          >
-            <TabsList>
-              {([1, 7, 30] as DashboardRange[]).map((val) => (
-                <TabsTrigger key={val} value={String(val)}>
-                  {t(RANGE_KEYS[val])}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </Tabs>
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={() => void refresh(range)}
-            disabled={loading}
-          >
-            <RefreshCw size={14} className={loading ? "animate-spin" : ""} />
-            {t("dashboard.refresh")}
-          </Button>
-        </div>
+        {/* Time range buttons and refresh removed per design */}
       </div>
 
       {error ? (
@@ -481,73 +459,7 @@ export function DashboardPage() {
         />
       ) : null}
 
-      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
-        <DashboardKpiCard
-          title={t("dashboard.total_requests")}
-          value={<AnimatedNumber value={kpi?.total_requests ?? 0} format={formatNumber} />}
-          hint={
-            range === 1
-              ? t("dashboard.total_hint_today")
-              : t("dashboard.total_hint_days", { count: range })
-          }
-          icon={Activity}
-          option={totalRequestOption}
-          accent={{
-            iconWrap: "bg-blue-50 dark:bg-blue-500/12",
-            iconColor: "text-blue-600 dark:text-blue-400",
-          }}
-        />
-        <DashboardKpiCard
-          title={t("dashboard.success_rate")}
-          value={<AnimatedNumber value={kpi?.success_rate ?? 0} format={formatRate} />}
-          hint={t("dashboard.success_hint", {
-            success: formatNumber(kpi?.success_requests ?? 0),
-            failed: formatNumber(kpi?.failed_requests ?? 0),
-          })}
-          icon={Sigma}
-          option={successRateOption}
-          accent={{
-            iconWrap: "bg-emerald-50 dark:bg-emerald-500/12",
-            iconColor: "text-emerald-600 dark:text-emerald-400",
-          }}
-        />
-        <DashboardKpiCard
-          title={t("dashboard.total_tokens")}
-          value={<AnimatedNumber value={kpi?.total_tokens ?? 0} format={formatNumber} />}
-          hint={t("dashboard.token_hint", {
-            input: formatNumber(kpi?.input_tokens ?? 0),
-            output: formatNumber(kpi?.output_tokens ?? 0),
-          })}
-          icon={Sparkles}
-          option={totalTokenOption}
-          accent={{
-            iconWrap: "bg-violet-50 dark:bg-violet-500/12",
-            iconColor: "text-violet-600 dark:text-violet-400",
-          }}
-        />
-        <DashboardKpiCard
-          title={t("dashboard.total_cost")}
-          value={<AnimatedNumber value={kpi?.total_cost ?? 0} format={formatCurrency} />}
-          hint={t("dashboard.total_cost_hint")}
-          icon={DollarSign}
-          option={totalCostOption}
-          accent={{
-            iconWrap: "bg-cyan-50 dark:bg-cyan-500/12",
-            iconColor: "text-cyan-600 dark:text-cyan-400",
-          }}
-        />
-        <DashboardKpiCard
-          title={t("dashboard.failed_requests")}
-          value={<AnimatedNumber value={kpi?.failed_requests ?? 0} format={formatNumber} />}
-          hint={t("dashboard.failed_hint")}
-          icon={TriangleAlert}
-          option={failedRequestOption}
-          accent={{
-            iconWrap: "bg-rose-50 dark:bg-rose-500/12",
-            iconColor: "text-rose-600 dark:text-rose-400",
-          }}
-        />
-      </div>
+      {/* Dashboard KPI cards removed per design */}
 
       <SystemMonitorSection
         stats={stats}
