@@ -11,9 +11,9 @@ export const formatCompact = (value: number): string => {
     return `${trimmed}${suffix}`;
   };
 
-  if (abs >= 1_000_000_000) return compact(1_000_000_000, "b");
-  if (abs >= 1_000_000) return compact(1_000_000, "m");
-  if (abs >= 1_000) return compact(1_000, "k");
+  if (abs >= 1_000_000_000) return compact(1_000_000_000, "B");
+  if (abs >= 1_000_000) return compact(1_000_000, "M");
+  if (abs >= 1_000) return compact(1_000, "K");
   return formatNumber(value);
 };
 

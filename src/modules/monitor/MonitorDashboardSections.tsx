@@ -1,6 +1,7 @@
 import { Activity, ChartSpline, Coins, ShieldCheck, Sigma } from "lucide-react";
 import type { HourWindow } from "@/modules/monitor/monitor-constants";
-import { formatNumber, formatRate } from "@/modules/monitor/monitor-utils";
+import { formatRate } from "@/modules/monitor/monitor-utils";
+import { formatCompact } from "@/modules/monitor/monitor-format";
 import { AnimatedNumber } from "@/modules/ui/AnimatedNumber";
 import { Reveal } from "@/modules/ui/Reveal";
 import { EChart } from "@/modules/ui/charts/EChart";
@@ -39,7 +40,7 @@ export function MonitorKpiSection({
         <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <KpiCard
             title={t("monitor.total_requests")}
-            value={<AnimatedNumber value={metrics.totalRequests} format={formatNumber} />}
+            value={<AnimatedNumber value={metrics.totalRequests} format={formatCompact} />}
             hint={t("monitor.filtered_by_time")}
             icon={Activity}
           />
@@ -47,22 +48,22 @@ export function MonitorKpiSection({
             title={t("monitor.success_rate")}
             value={<AnimatedNumber value={metrics.successRate} format={formatRate} />}
             hint={t("monitor.success_count", {
-              success: formatNumber(metrics.successCount),
-              failed: formatNumber(metrics.failureCount),
+              success: formatCompact(metrics.successCount),
+              failed: formatCompact(metrics.failureCount),
             })}
             icon={ShieldCheck}
           />
           <KpiCard
             title={t("monitor.total_token")}
-            value={<AnimatedNumber value={metrics.totalTokens} format={formatNumber} />}
+            value={<AnimatedNumber value={metrics.totalTokens} format={formatCompact} />}
             hint={t("monitor.input_output_hint")}
             icon={Sigma}
           />
           <KpiCard
             title={t("monitor.output_token")}
-            value={<AnimatedNumber value={metrics.outputTokens} format={formatNumber} />}
+            value={<AnimatedNumber value={metrics.outputTokens} format={formatCompact} />}
             hint={t("monitor.input_tokens_hint", {
-              count: formatNumber(metrics.inputTokens),
+              count: formatCompact(metrics.inputTokens),
             } as Record<string, unknown>)}
             icon={Coins}
           />
