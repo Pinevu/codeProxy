@@ -1,0 +1,107 @@
+<!-- AI-KIT:START -->
+
+# 演进记录（Evolution）
+
+本文件用于记录“结构性变更 / 关键决策 / 规范调整”，帮助后续追溯“为什么现在是这样”。
+
+## 记录原则
+
+- 只记录“会影响后续维护与协作”的变更：目录结构、依赖方向、工具链切换、关键架构决策、重大行为变更。
+- 每条记录必须包含：时间、变更内容、原因（why）、影响范围、回滚要点（如适用）。
+
+## 条目模板（可复制）
+
+```
+## YYYY-MM-DD · 标题
+
+### 背景
+
+### 选项（可选）
+- 方案 A：
+- 方案 B：
+
+### 结论
+
+### 影响范围
+
+### 回滚策略（如适用）
+```
+
+<!-- AI-KIT:END -->
+
+<!-- PROJECT-OVERRIDES:START -->
+
+（可选）在此处追加本项目的历史演进条目（脚手架不会覆盖）。
+
+## 2026-04-16 · Docker 自动更新提示与确认流程
+
+### 背景
+
+CliRelay 后端新增 Docker-first 自动更新能力，需要前端在用户登录后自动检查新版本、展示 release notes，并允许用户从管理面板触发 Docker 更新。
+
+### 结论
+
+- 新增 `src/modules/update/AutoUpdatePrompt.tsx`，作为登录后全局提示组件。
+- 新增 `src/lib/http/apis/update.ts`，封装 `/update/check` 与 `/update/apply` 管理接口。
+- 配置页运行时开关新增 `auto-update.enabled` 的图形化开关。
+- 配置页运行时设置新增更新渠道选择，默认跟随 `main`，可切换到 `dev` 或 `auto`。
+- 登录后全局检查只发 Toast，不再弹出确认窗口；更新详情、release notes 和执行按钮集中在系统信息页。
+
+### 影响范围
+
+- `AppRouter` 在 `AuthProvider` 内挂载自动更新 Toast 提示。
+- `SystemPage` 挂载 `UpdateDetailsCard`，由用户点击按钮后加载更新详情并执行更新。
+- i18n 增加 `auto_update` 文案。
+- 新增 `src/modules/update/` 模块，需要后续维护时保持与后端 update API 字段一致。
+
+### 回滚策略（如适用）
+
+- 从 `AppRouter` 移除 `AutoUpdatePrompt` 挂载。
+- 删除 `src/modules/update/` 和 `src/lib/http/apis/update.ts`。
+- 从配置页移除 `auto-update.enabled` 开关，并保留 YAML 手动配置能力。
+
+## 2026-02-22 · 引入历史兼容管理入口（多页面构建）
+
+### 背景
+
+需要在当前仓库内补齐早期兼容管理入口，覆盖仪表盘、系统信息、使用统计等能力，并为后续重写后的主入口演进预留过渡空间。
+
+### 结论
+
+- 保留现有 Tailwind 后台（`index.html` / `src/main.tsx`）。
+- 新增第二页面入口 `management.html` / `src/management.tsx`，承载历史兼容管理入口（HashRouter + SCSS Modules）。
+- `vite.config.ts` 改为多页面构建，并补齐 `__APP_VERSION__`、SCSS 预处理与 CSS Modules 配置。
+
+### 影响范围
+
+- 新增历史兼容入口相关目录：`src/pages/`、`src/components/`、`src/services/`、`src/stores/`、`src/i18n/` 等。
+- `dist/` 产物新增 `management.html` 及对应静态资源。
+- 依赖新增：`axios`、`zustand`、`i18next`、`react-i18next`、`@uiw/react-codemirror`、`@codemirror/*`、`chart.js`、`react-chartjs-2`、`@tanstack/react-virtual`、`gsap`、`sass` 等。
+
+### 回滚策略（如适用）
+
+- 删除 `management.html`、`src/management.tsx`，并从 `vite.config.ts` 移除多页面 `rollupOptions.input` 与 SCSS/CSS Modules 配置。
+- 移除历史兼容入口目录（`src/pages/` 等）及对应新增依赖后重新 `bun install`。
+
+## 2026-02-22 · 业务功能补齐（保持默认入口为 Tailwind 后台）
+
+### 背景
+
+用户要求保持现有 UI（Tailwind 后台）不变，同时对齐参考项目缺失的业务功能；并明确“不需要管理中心（兼容）”相关入口暴露。
+
+### 结论
+
+- 默认入口保持为 `index.html` / `src/main.tsx`（`BrowserRouter` + `AppRouter`）。
+- 默认构建入口仅保留 `index.html`，不再默认产出 `dist/management.html`（历史文件仍保留在仓库中）。
+- 在不改变整体 UI 风格的前提下，补齐缺失业务页面与路由：新增 `/dashboard`、`/usage`、`/system` 等入口，并对齐参考项目的 usage 快照导入/导出能力。
+
+### 影响范围
+
+- 生产构建产物从双入口变为单入口：仅输出 `dist/index.html` + `dist/assets/*`。
+- 侧边栏不再暴露“管理中心（兼容）”外链入口（历史文件仍可保留在磁盘上，但不作为默认交付）。
+
+### 回滚策略（如适用）
+
+- 如需恢复双入口产物：在 `vite.config.ts` 的 `build.rollupOptions.input` 中重新加入 `management.html`。
+
+<!-- PROJECT-OVERRIDES:END -->
