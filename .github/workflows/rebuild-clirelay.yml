@@ -1,4 +1,4 @@
-name: Rebuild CliRelay Image
+name: Rebuild cpam Image
 
 on:
   push:
@@ -9,19 +9,19 @@ jobs:
   dispatch:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger CliRelay docker publish workflow
+      - name: Trigger cpam docker publish workflow
         env:
           GH_TOKEN: ${{ secrets.CLIRELAY_WORKFLOW_TOKEN }}
           TARGET_REF: ${{ github.ref_name }}
         run: |
           set -euo pipefail
           if [ -z "${GH_TOKEN}" ]; then
-            echo "CLIRELAY_WORKFLOW_TOKEN secret is required to trigger CliRelay docker builds." >&2
-            exit 1
+            echo "CLIRELAY_WORKFLOW_TOKEN is not configured; skip triggering Pinevu/cpam workflow."
+            exit 0
           fi
 
           gh workflow run docker-publish.yml \
-            --repo kittors/CliRelay \
+            --repo Pinevu/cpam \
             --ref "${TARGET_REF}"
 
-          echo "Triggered CliRelay docker-publish.yml for ${TARGET_REF}"
+          echo "Triggered Pinevu/cpam docker-publish.yml for ${TARGET_REF}"
