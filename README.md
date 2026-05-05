@@ -17,10 +17,10 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/kittors/codeProxy/stargazers"><img src="https://img.shields.io/github/stars/kittors/codeProxy?style=flat-square&color=f5a623" alt="Stars" /></a>
-  <a href="https://github.com/kittors/codeProxy/network/members"><img src="https://img.shields.io/github/forks/kittors/codeProxy?style=flat-square&color=4a90d9" alt="Forks" /></a>
-  <a href="https://github.com/kittors/codeProxy/issues"><img src="https://img.shields.io/github/issues/kittors/codeProxy?style=flat-square&color=e74c3c" alt="Issues" /></a>
-  <a href="https://github.com/kittors/codeProxy/blob/main/LICENSE"><img src="https://img.shields.io/github/license/kittors/codeProxy?style=flat-square&color=27ae60" alt="License" /></a>
+  <a href="https://github.com/Pinevu/codeProxy/stargazers"><img src="https://img.shields.io/github/stars/Pinevu/codeProxy?style=flat-square&color=f5a623" alt="Stars" /></a>
+  <a href="https://github.com/Pinevu/codeProxy/network/members"><img src="https://img.shields.io/github/forks/Pinevu/codeProxy?style=flat-square&color=4a90d9" alt="Forks" /></a>
+  <a href="https://github.com/Pinevu/codeProxy/issues"><img src="https://img.shields.io/github/issues/Pinevu/codeProxy?style=flat-square&color=e74c3c" alt="Issues" /></a>
+  <a href="https://github.com/Pinevu/codeProxy/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Pinevu/codeProxy?style=flat-square&color=27ae60" alt="License" /></a>
 </p>
 
 ---
@@ -236,7 +236,7 @@ The gallery below uses the latest 13 management-panel screenshots and maps each 
 
 ```bash
 # Clone the repository
-git clone https://github.com/kittors/codeProxy.git
+git clone https://github.com/Pinevu/codeProxy.git
 cd codeProxy
 
 # Install dependencies

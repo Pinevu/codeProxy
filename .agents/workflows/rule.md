@@ -6,7 +6,7 @@ description: 前端项目规范和 CI/CD 检查流程
 
 ## 项目信息
 
-- **仓库**: `kittors/codeProxy`
+- **仓库**: `Pinevu/codeProxy`
 - **本地路径**: `/Users/kittors/Developer/opensource/codeProxy`
 - **技术栈**: React + TypeScript + Vite + Tailwind CSS
 - **包管理器**: Bun（CI 和本地都使用 Bun）
@@ -39,19 +39,19 @@ sleep 90
 2. 检查前端 CI 状态
 
 ```bash
-gh run list --repo kittors/codeProxy --branch dev -L 1 --json databaseId,status,conclusion,displayTitle
+gh run list --repo Pinevu/codeProxy --branch dev -L 1 --json databaseId,status,conclusion,displayTitle
 ```
 
 3. 如果状态为 `in_progress`，再等 60 秒后重新检查
 
 ```bash
-sleep 60 && gh run list --repo kittors/codeProxy --branch dev -L 1 --json databaseId,status,conclusion,displayTitle
+sleep 60 && gh run list --repo Pinevu/codeProxy --branch dev -L 1 --json databaseId,status,conclusion,displayTitle
 ```
 
 4. 如果状态为 `failure`，查看失败日志
 
 ```bash
-gh run view <RUN_ID> --repo kittors/codeProxy --log-failed 2>&1 | tail -40
+gh run view <RUN_ID> --repo Pinevu/codeProxy --log-failed 2>&1 | tail -40
 ```
 
 5. 如果后端也有推送，检查后端 CI 状态
