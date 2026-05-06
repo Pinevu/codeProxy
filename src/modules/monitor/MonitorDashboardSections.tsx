@@ -1,4 +1,4 @@
-import { Activity, ChartSpline, Coins, ShieldCheck, Sigma } from "lucide-react";
+import { Activity, AlertTriangle, ChartSpline, Coins, ShieldCheck, Sigma } from "lucide-react";
 import type { HourWindow } from "@/modules/monitor/monitor-constants";
 import { formatRate } from "@/modules/monitor/monitor-utils";
 import { formatCompact } from "@/modules/monitor/monitor-format";
@@ -38,12 +38,21 @@ export function MonitorKpiSection({
   return (
     <>
       <Reveal>
-        <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+        <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-6">
           <KpiCard
             title={t("monitor.total_requests")}
             value={<AnimatedNumber value={metrics.totalRequests} format={formatCompact} />}
             hint={t("monitor.filtered_by_time")}
             icon={Activity}
+          />
+          <KpiCard
+            title={t("monitor.failed_requests")}
+            value={<AnimatedNumber value={metrics.failureCount} format={formatCompact} />}
+            hint={t("monitor.success_count", {
+              success: formatCompact(metrics.successCount),
+              failed: formatCompact(metrics.failureCount),
+            })}
+            icon={AlertTriangle}
           />
           <KpiCard
             title={t("monitor.success_rate")}

@@ -103,14 +103,14 @@ export function Modal({
     ? "overflow-y-auto overscroll-contain touch-pan-y [-webkit-overflow-scrolling:touch]"
     : bodyOverflowClassName ?? "overflow-y-auto";
   const panelHeightCls = isMobile
-    ? "flex max-h-[calc(100svh-env(safe-area-inset-bottom)-1rem)] flex-col"
+    ? "flex h-[88svh] max-h-[calc(100svh-env(safe-area-inset-bottom)-0.5rem)] flex-col"
     : "flex max-h-[92dvh] flex-col";
   const footerPaddingCls = isMobile
     ? "px-4 py-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]"
     : "px-5 py-4";
 
   return createPortal(
-    <div className="fixed inset-0 z-[200] flex items-center justify-center px-3 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] sm:p-4">
+    <div className="fixed inset-0 z-[200] flex items-center justify-center px-3 pt-2 pb-[calc(env(safe-area-inset-bottom)+0.5rem)] sm:p-4">
       <button
         type="button"
         onClick={() => {
