@@ -13,22 +13,40 @@ export const KpiCard = ({
   value,
   hint,
   icon: Icon,
+  tone = "default",
 }: {
   title: string;
   value: ReactNode;
   hint: string;
   icon: ComponentType<{ size?: number; className?: string }>;
+  tone?: "default" | "danger";
 }) => {
+  const articleClassName =
+    tone === "danger"
+      ? "rounded-2xl border border-rose-200/80 bg-rose-50/90 p-5 shadow-[0_1px_2px_rgb(127_29_29_/_0.06)] dark:border-rose-500/25 dark:bg-rose-950/25 dark:shadow-[0_1px_2px_rgb(0_0_0_/_0.22)]"
+      : "rounded-2xl border border-black/[0.06] bg-white p-5 shadow-[0_1px_2px_rgb(15_23_42_/_0.035)] dark:border-white/[0.06] dark:bg-neutral-950/70 dark:shadow-[0_1px_2px_rgb(0_0_0_/_0.22)]";
+  const titleClassName =
+    tone === "danger"
+      ? "flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-rose-700 dark:text-rose-200"
+      : "flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-white/55";
+  const iconClassName = tone === "danger" ? "text-rose-600 dark:text-rose-300" : "text-slate-900 dark:text-white";
+  const valueClassName =
+    tone === "danger"
+      ? "mt-3 text-2xl font-semibold tracking-tight text-rose-700 dark:text-rose-200"
+      : "mt-3 text-2xl font-semibold tracking-tight text-slate-900 dark:text-white";
+  const hintClassName =
+    tone === "danger"
+      ? "mt-2 text-xs text-rose-700/80 dark:text-rose-200/80"
+      : "mt-2 text-xs text-slate-600 dark:text-white/65";
+
   return (
-    <article className="rounded-2xl border border-black/[0.06] bg-white p-5 shadow-[0_1px_2px_rgb(15_23_42_/_0.035)] dark:border-white/[0.06] dark:bg-neutral-950/70 dark:shadow-[0_1px_2px_rgb(0_0_0_/_0.22)]">
-      <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-white/55">
-        <Icon size={14} className="text-slate-900 dark:text-white" />
+    <article className={articleClassName}>
+      <p className={titleClassName}>
+        <Icon size={14} className={iconClassName} />
         <span>{title}</span>
       </p>
-      <p className="mt-3 text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">
-        {value}
-      </p>
-      <p className="mt-2 text-xs text-slate-600 dark:text-white/65">{hint}</p>
+      <p className={valueClassName}>{value}</p>
+      <p className={hintClassName}>{hint}</p>
     </article>
   );
 };

@@ -103,14 +103,21 @@ export function Modal({
     ? "overflow-y-auto overscroll-contain touch-pan-y [-webkit-overflow-scrolling:touch]"
     : bodyOverflowClassName ?? "overflow-y-auto";
   const panelHeightCls = isMobile
-    ? "flex h-[88svh] max-h-[calc(100svh-env(safe-area-inset-bottom)-0.5rem)] flex-col"
+    ? "flex h-[89svh] max-h-[calc(100svh-env(safe-area-inset-bottom)-0.35rem)] flex-col"
     : "flex max-h-[92dvh] flex-col";
+  const headerCls = isMobile
+    ? "shrink-0 flex items-start justify-between gap-3 border-b border-slate-200 px-4 py-3 dark:border-neutral-800"
+    : "shrink-0 flex items-start justify-between gap-3 border-b border-slate-200 px-5 py-4 dark:border-neutral-800";
+  const descriptionCls = isMobile
+    ? "mt-0.5 text-xs leading-5 text-slate-600 dark:text-white/60"
+    : "mt-1 text-sm text-slate-600 dark:text-white/65";
+  const bodyPaddingCls = isMobile ? "px-4 py-3" : "px-5 py-4";
   const footerPaddingCls = isMobile
-    ? "px-4 py-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]"
+    ? "px-4 py-2.5 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]"
     : "px-5 py-4";
 
   return createPortal(
-    <div className="fixed inset-0 z-[200] flex items-center justify-center px-3 pt-2 pb-[calc(env(safe-area-inset-bottom)+0.5rem)] sm:p-4">
+    <div className="fixed inset-0 z-[200] flex items-center justify-center px-3 pt-2 pb-[calc(env(safe-area-inset-bottom)+0.45rem)] sm:p-4">
       <button
         type="button"
         onClick={() => {
@@ -149,14 +156,12 @@ export function Modal({
             <X size={16} />
           </button>
         ) : (
-          <div className="shrink-0 flex items-start justify-between gap-3 border-b border-slate-200 px-5 py-4 dark:border-neutral-800">
+          <div className={headerCls}>
             <div className="min-w-0">
               <h2 className="truncate text-base font-semibold tracking-tight text-slate-900 dark:text-white">
                 <span id={titleId}>{title}</span>
               </h2>
-              {description ? (
-                <p className="mt-1 text-sm text-slate-600 dark:text-white/65">{description}</p>
-              ) : null}
+              {description ? <p className={descriptionCls}>{description}</p> : null}
             </div>
             <button
               type="button"
@@ -172,7 +177,7 @@ export function Modal({
 
         <div
           data-testid={bodyTestId}
-          className={`${bodyHeightCls} ${bodyOverflowCls} overscroll-contain px-5 py-4 ${bodyClassName ?? ""}`}
+          className={`${bodyHeightCls} ${bodyOverflowCls} overscroll-contain ${bodyPaddingCls} ${bodyClassName ?? ""}`}
         >
           {children}
         </div>

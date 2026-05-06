@@ -1744,6 +1744,7 @@
     "output_token": "输出 Token",
     "total_cost": "总费用",
     "total_cost_hint": "基于已设置的模型单价",
+    "failed_requests_hint": "仅统计失败次数",
     "filtered_by_time": "按时间范围过滤",
     "success_count": "成功 {{success}} / 失败 {{failed}}",
     "input_output_hint": "输入 + 输出 + 推理 + 缓存",

@@ -48,11 +48,9 @@ export function MonitorKpiSection({
           <KpiCard
             title={t("monitor.failed_requests")}
             value={<AnimatedNumber value={metrics.failureCount} format={formatCompact} />}
-            hint={t("monitor.success_count", {
-              success: formatCompact(metrics.successCount),
-              failed: formatCompact(metrics.failureCount),
-            })}
+            hint={t("monitor.failed_requests_hint")}
             icon={AlertTriangle}
+            tone="danger"
           />
           <KpiCard
             title={t("monitor.success_rate")}
