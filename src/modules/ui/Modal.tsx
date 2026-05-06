@@ -3,6 +3,7 @@ import { useEffect, useId, useRef, useState, type PropsWithChildren, type ReactN
 import { X } from "lucide-react";
 
 const ANIMATION_MS = 180;
+const MOBILE_MEDIA_QUERY = "(max-width: 640px)";
 
 export function Modal({
   open,
@@ -34,8 +35,27 @@ export function Modal({
 }>) {
   const [mounted, setMounted] = useState(open);
   const [visible, setVisible] = useState(open);
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" && window.matchMedia(MOBILE_MEDIA_QUERY).matches,
+  );
   const timeoutRef = useRef<number | null>(null);
   const titleId = useId();
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const mediaQuery = window.matchMedia(MOBILE_MEDIA_QUERY);
+    const syncMobile = () => setIsMobile(mediaQuery.matches);
+    syncMobile();
+
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", syncMobile);
+      return () => mediaQuery.removeEventListener("change", syncMobile);
+    }
+
+    mediaQuery.addListener(syncMobile);
+    return () => mediaQuery.removeListener(syncMobile);
+  }, []);
 
   useEffect(() => {
     if (open) {
@@ -78,11 +98,19 @@ export function Modal({
 
   if (!mounted) return null;
 
-  const bodyHeightCls = bodyHeightClassName ?? "max-h-[70vh]";
-  const bodyOverflowCls = bodyOverflowClassName ?? "overflow-y-auto";
+  const bodyHeightCls = isMobile ? "min-h-0 flex-1 max-h-none" : bodyHeightClassName ?? "max-h-[70vh]";
+  const bodyOverflowCls = isMobile
+    ? "overflow-y-auto overscroll-contain touch-pan-y [-webkit-overflow-scrolling:touch]"
+    : bodyOverflowClassName ?? "overflow-y-auto";
+  const panelHeightCls = isMobile
+    ? "flex max-h-[calc(100svh-env(safe-area-inset-bottom)-1rem)] flex-col"
+    : "flex max-h-[92dvh] flex-col";
+  const footerPaddingCls = isMobile
+    ? "px-4 py-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]"
+    : "px-5 py-4";
 
   return createPortal(
-    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[200] flex items-center justify-center px-3 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] sm:p-4">
       <button
         type="button"
         onClick={() => {
@@ -104,6 +132,7 @@ export function Modal({
         aria-labelledby={hideHeader ? undefined : titleId}
         className={[
           `relative z-10 w-full ${maxWidth} overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl dark:border-neutral-800 dark:bg-neutral-950`,
+          panelHeightCls,
           "transition-all duration-200 ease-out motion-reduce:transition-none",
           visible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-2 scale-95",
           panelClassName,
@@ -120,7 +149,7 @@ export function Modal({
             <X size={16} />
           </button>
         ) : (
-          <div className="flex items-start justify-between gap-3 border-b border-slate-200 px-5 py-4 dark:border-neutral-800">
+          <div className="shrink-0 flex items-start justify-between gap-3 border-b border-slate-200 px-5 py-4 dark:border-neutral-800">
             <div className="min-w-0">
               <h2 className="truncate text-base font-semibold tracking-tight text-slate-900 dark:text-white">
                 <span id={titleId}>{title}</span>
@@ -149,7 +178,9 @@ export function Modal({
         </div>
 
         {footer ? (
-          <div className="flex flex-wrap items-center justify-end gap-2 border-t border-slate-200 px-5 py-4 dark:border-neutral-800">
+          <div
+            className={`shrink-0 flex flex-wrap items-center justify-end gap-2 border-t border-slate-200 ${footerPaddingCls} dark:border-neutral-800`}
+          >
             {footer}
           </div>
         ) : null}
