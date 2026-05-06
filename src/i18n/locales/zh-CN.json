@@ -1738,6 +1738,7 @@
       "disable_unsupported_guide_step4": "4. 保存配置即可生效",
       "disable_unsupported_close": "我知道了"
     },
+    "failed_requests": "失败请求数",
     "total_requests": "总请求数",
     "success_rate": "成功率",
     "total_token": "总 Token",
@@ -2323,7 +2324,7 @@
     "vertex_config_desc": "Vertex 模型需设置别名（name => alias）。用 * 可禁用全部模型。",
     "bedrock_config_desc": "可使用 Bedrock API Key 或 AWS SigV4 凭证。",
     "opencode_go_config_desc": "OpenCode Go 使用固定端点，无需填写 Base URL 或模型列表。",
-    "generic_config_desc": "支持排除模型（每行一个；* 禁用全部）、请求头与模型设置。",
+    "generic_config_desc": "支持排除模型、请求头、模型设置。",
     "modal_tab_basic": "基础信息",
     "modal_tab_request": "请求配置",
     "modal_tab_models": "模型",
