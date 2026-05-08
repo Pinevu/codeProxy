@@ -33,14 +33,6 @@ export function Card({
     glass: "card-glass",
     gradient: "border-gradient rounded-2xl bg-white shadow-[0_1px_2px_rgb(15_23_42_/_0.035)] dark:bg-neutral-950/70 dark:shadow-[0_1px_2px_rgb(0_0_0_/_0.3)]",
   }[variant];
-  const { t } = useTranslation();
-  const hasHeader = Boolean(title || description || actions);
-  const paddingClass = {
-    default: "p-5",
-    compact: "p-3.5",
-    none: "p-0",
-  }[padding];
-
   return (
     <section
       className={[
