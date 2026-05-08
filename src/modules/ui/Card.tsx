@@ -6,6 +6,7 @@ export function Card({
   description,
   actions,
   loading = false,
+  variant = "default",
   className,
   bodyClassName,
   padding = "default",
@@ -15,6 +16,7 @@ export function Card({
   description?: string;
   actions?: ReactNode;
   loading?: boolean;
+  variant?: "default" | "glass" | "gradient";
   className?: string;
   bodyClassName?: string;
   padding?: "default" | "compact" | "none";
@@ -26,11 +28,23 @@ export function Card({
     compact: "p-3.5",
     none: "p-0",
   }[padding];
+  const variantClass = {
+    default: "rounded-2xl border border-black/[0.06] bg-white shadow-[0_1px_2px_rgb(15_23_42_/_0.035)] dark:border-white/[0.06] dark:bg-neutral-950/70 dark:shadow-[0_1px_2px_rgb(0_0_0_/_0.22)]",
+    glass: "card-glass",
+    gradient: "border-gradient rounded-2xl bg-white shadow-[0_1px_2px_rgb(15_23_42_/_0.035)] dark:bg-neutral-950/70 dark:shadow-[0_1px_2px_rgb(0_0_0_/_0.3)]",
+  }[variant];
+  const { t } = useTranslation();
+  const hasHeader = Boolean(title || description || actions);
+  const paddingClass = {
+    default: "p-5",
+    compact: "p-3.5",
+    none: "p-0",
+  }[padding];
 
   return (
     <section
       className={[
-        "relative min-w-0 rounded-2xl border border-black/[0.06] bg-white shadow-[0_1px_2px_rgb(15_23_42_/_0.035)] dark:border-white/[0.06] dark:bg-neutral-950/70 dark:shadow-[0_1px_2px_rgb(0_0_0_/_0.22)]",
+        variantClass,
         "motion-reduce:transition-none motion-safe:transition-colors motion-safe:duration-200 motion-safe:ease-out",
         paddingClass,
         className,
@@ -58,10 +72,12 @@ export function Card({
         {children}
       </div>
       {loading ? (
-        <div className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl bg-white/70 backdrop-blur-sm motion-safe:transition-colors motion-safe:duration-200 motion-safe:ease-out dark:bg-neutral-950/55">
-          <div className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white/85 px-3 py-2 text-sm font-medium text-slate-700 shadow-sm motion-safe:transition-colors motion-safe:duration-200 motion-safe:ease-out dark:border-neutral-800 dark:bg-neutral-950/80 dark:text-white">
-            <span className="h-4 w-4 animate-spin rounded-full border-2 border-slate-400 border-t-transparent dark:border-white/50 dark:border-t-transparent" />
-            {t("common.loading_ellipsis")}
+        <div className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl">
+          <div className="flex flex-col items-center gap-3 p-6">
+            <div className="h-8 w-32 skeleton rounded-lg" />
+            <div className="h-4 w-48 skeleton rounded-md" />
+            <div className="h-4 w-40 skeleton rounded-md" />
+            <div className="h-20 w-full skeleton rounded-xl" />
           </div>
         </div>
       ) : null}
