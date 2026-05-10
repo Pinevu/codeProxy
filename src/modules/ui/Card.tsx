@@ -29,7 +29,7 @@ export function Card({
     none: "p-0",
   }[padding];
   const variantClass = {
-    default: "rounded-2xl border border-black/[0.06] bg-white shadow-[0_1px_2px_rgb(15_23_42_/_0.035)] dark:border-white/[0.06] dark:bg-neutral-950/70 dark:shadow-[0_1px_2px_rgb(0_0_0_/_0.22)]",
+    default: "rounded-2xl border border-black/[0.06] bg-white shadow-[0_1px_2px_rgb(15_23_42_/_0.035)] dark:border-white/[0.06] dark:bg-neutral-950/70 dark:shadow-[0_1px_2px_rgb(0_0_0_/_0.22)] card-ornament hover-lift",
     glass: "card-glass",
     gradient: "border-gradient rounded-2xl bg-white shadow-[0_1px_2px_rgb(15_23_42_/_0.035)] dark:bg-neutral-950/70 dark:shadow-[0_1px_2px_rgb(0_0_0_/_0.3)]",
   }[variant];
