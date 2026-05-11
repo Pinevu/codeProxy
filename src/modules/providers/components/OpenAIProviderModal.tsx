@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type Dispatch, type SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { Check, Copy, Plus, RefreshCw, Trash2 } from "lucide-react";
+import { Check, Copy, Plus, RefreshCw, Trash2, PlayCircle } from "lucide-react";
 import type { OpenAIDraft } from "@/modules/providers/providers-helpers";
 import { buildModelsEndpoint } from "@/modules/providers/providers-helpers";
 import { Button } from "@/modules/ui/Button";
@@ -29,6 +29,12 @@ interface OpenAIProviderModalProps {
   proxyPoolEntries: ProxyPoolEntry[];
   copyText: (text: string) => Promise<void>;
   maskApiKey: (value: string) => string;
+  resolvedTestModel: string;
+  testingOpenAI: boolean;
+  testAllRunning: boolean;
+  testResults: Record<string, { ok: boolean; message: string }>;
+  testOpenAIFirstKey: () => Promise<void>;
+  testAllOpenAIKeys: () => Promise<void>;
 }
 
 export function OpenAIProviderModal({
@@ -48,6 +54,12 @@ export function OpenAIProviderModal({
   proxyPoolEntries,
   copyText,
   maskApiKey,
+  resolvedTestModel,
+  testingOpenAI,
+  testAllRunning,
+  testResults,
+  testOpenAIFirstKey,
+  testAllOpenAIKeys,
 }: OpenAIProviderModalProps) {
   const { t } = useTranslation();
   const [discoverQuery, setDiscoverQuery] = useState("");
@@ -196,6 +208,53 @@ export function OpenAIProviderModal({
             />
           </div>
         </div>
+
+        <section className="space-y-3 border-t border-slate-200/60 pt-5 dark:border-neutral-800/60">
+          <div className="rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-950/60">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div className="space-y-1">
+                <p className="text-sm font-semibold text-slate-900 dark:text-white">
+                  {t("providers.openai_test_title")}
+                </p>
+                <p className="text-sm text-slate-500 dark:text-white/60">
+                  {t("providers.openai_test_hint")}
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button variant="secondary" size="sm" onClick={() => void testOpenAIFirstKey()} disabled={testingOpenAI || testAllRunning}>
+                  <PlayCircle size={14} className={testingOpenAI ? "animate-pulse" : ""} />
+                  {t("providers.openai_test_single_action")}
+                </Button>
+                <Button variant="secondary" size="sm" onClick={() => void testAllOpenAIKeys()} disabled={testingOpenAI || testAllRunning}>
+                  <RefreshCw size={14} className={testAllRunning ? "animate-spin" : ""} />
+                  {t("providers.openai_test_all_action")}
+                </Button>
+              </div>
+            </div>
+            <div className="mt-3 grid gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+              <div className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 shadow-sm dark:border-neutral-800 dark:bg-neutral-950/60 dark:text-white/80">
+                {resolvedTestModel || t("providers.openai_test_select_empty")}
+              </div>
+              <div className="text-xs text-slate-500 dark:text-white/55">
+                {t("providers.test_model_label")}
+              </div>
+            </div>
+            {openaiDraft.apiKeyEntries.length ? (
+              <div className="mt-3 space-y-2">
+                {openaiDraft.apiKeyEntries.map((entry, idx) => {
+                  const r = testResults[entry.id];
+                  return (
+                    <div key={`test-${entry.id}`} className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-200/80 bg-slate-50/70 px-3 py-2 text-xs dark:border-neutral-800 dark:bg-neutral-900/40">
+                      <div className="font-medium text-slate-700 dark:text-white/75">{t("providers.key_number", { num: idx + 1 })}</div>
+                      <div className="truncate text-slate-500 dark:text-white/55">{maskApiKey(entry.apiKey)}</div>
+                      <div className={r ? (r.ok ? "text-emerald-600 dark:text-emerald-300" : "text-rose-600 dark:text-rose-300") : "text-slate-400 dark:text-white/35"}>{r ? r.message : "--"}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : null}
+          </div>
+        </section>
 
         <div className="border-t border-slate-200/60 pt-5 dark:border-neutral-800/60">
           <KeyValueInputList

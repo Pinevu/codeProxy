@@ -287,6 +287,12 @@ export function ProvidersPage() {
     deleteOpenAIProvider,
     discoverModels,
     applyDiscoveredModels,
+    resolvedTestModel,
+    testingOpenAI,
+    testAllRunning,
+    testResults,
+    testOpenAIFirstKey,
+    testAllOpenAIKeys,
   } = useOpenAIProviderEditor({
     openaiProviders,
     setOpenaiProviders,
@@ -649,6 +655,12 @@ export function ProvidersPage() {
         proxyPoolEntries={proxyPoolEntries}
         copyText={copyText}
         maskApiKey={maskApiKey}
+        resolvedTestModel={resolvedTestModel}
+        testingOpenAI={testingOpenAI}
+        testAllRunning={testAllRunning}
+        testResults={testResults}
+        testOpenAIFirstKey={testOpenAIFirstKey}
+        testAllOpenAIKeys={testAllOpenAIKeys}
       />
 
       <ConfirmModal
